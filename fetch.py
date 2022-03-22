@@ -44,9 +44,11 @@ def usage():
 
 
 def fetch_video_url(uuid):
-    url =\
-        'http://scs.hosted.panopto.com/Panopto/PublicAPI/4.1/TabletDeliveryInfo'\
-        + '?DeliveryId=%s&forDownload=true' % uuid
+    url = (
+        'http://scs.hosted.panopto.com/Panopto/PublicAPI/4.1/TabletDeliveryInfo'
+        + f'?DeliveryId={uuid}&forDownload=true'
+    )
+
     req = urlopen(url)
     res = json.loads(req.read())
     return res['PhoneDownloadUrl']
@@ -57,7 +59,7 @@ def advanced_downloader(downloader):
     def wrapper(video_url, filename):
         if platform.system() == "Linux":
             if os.path.exists("/usr/bin/wget"):
-                os.system("wget " + video_url + " -O '" + filename + "'")
+                os.system(f"wget {video_url}" + " -O '" + filename + "'")
         else:
             downloader(video_url, filename)
 
